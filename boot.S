@@ -12,10 +12,10 @@ _start:
     sub x3, x2, x6
     mov sp, x3
 
-    bl uart_init
+    bl uart_init // FixME: only need call by BSP
 
-    mrs x0, mpidr_el1   // 获取当前CPU的ID
-    and x0, x0, #3     // 仅考虑最低的两位
+    mrs x0, mpidr_el1
+    and x0, x0, #3
     // 根据核心ID跳转到相应的代码段
     cbz x0, core0
     cmp x0, #1
