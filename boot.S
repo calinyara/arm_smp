@@ -2,8 +2,8 @@
 .section .text.boot, "ax"
 
 _start:
-    mrs x0, mpidr_el1   // 获取当前CPU的ID
-    and x0, x0, #3     // 仅考虑最低的两位
+    mrs x0, mpidr_el1
+    and x0, x0, #3
 
     mov x6, x0
     mov x1, #0x0
@@ -12,11 +12,10 @@ _start:
     sub x3, x2, x6
     mov sp, x3
 
-    bl uart_init // FixME: only need call by BSP
+    bl uart_init
 
     mrs x0, mpidr_el1
     and x0, x0, #3
-    // 根据核心ID跳转到相应的代码段
     cbz x0, core0
     cmp x0, #1
     b.eq core1

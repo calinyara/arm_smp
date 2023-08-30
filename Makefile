@@ -6,7 +6,10 @@ ASMOPS = -Iinclude
 BUILD_DIR = build
 SRC_DIR = .
 
-all : test.bin
+all : arm_smp
+
+run : arm_smp
+	qemu-system-aarch64 -M raspi3b -nographic -serial null -serial mon:stdio -kernel kernel8.elf
 
 clean :
 	rm -rf $(BUILD_DIR) *.img *.bin *.elf
@@ -26,6 +29,5 @@ OBJ_FILES += $(ASM_FILES:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_s.o)
 DEP_FILES = $(OBJ_FILES:%.o=%.d)
 -include $(DEP_FILES)
 
-test.bin: $(SRC_DIR)/linker.ld $(OBJ_FILES)
-	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf  $(OBJ_FILES)
-	$(ARMGNU)-objcopy kernel8.elf -O binary test.bin
+arm_smp: $(SRC_DIR)/linker.ld $(OBJ_FILES)
+	 $(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf  $(OBJ_FILES)
