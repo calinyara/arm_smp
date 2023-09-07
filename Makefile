@@ -31,3 +31,4 @@ DEP_FILES = $(OBJ_FILES:%.o=%.d)
 
 arm_smp: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 	 $(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf  $(OBJ_FILES)
+	 $(ARMGNU)-objcopy kernel8.elf -O binary kernel8.bin
